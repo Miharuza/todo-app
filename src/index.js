@@ -12,7 +12,7 @@ function App() {
           <span role="img" aria-label="logo">
             ⚡️
           </span>{" "}
-          Chakra UI
+          Chakra UIiii
         </Heading>
       </Box>
     </ThemeProvider>
