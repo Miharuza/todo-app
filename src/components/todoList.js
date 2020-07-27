@@ -1,20 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Tabs,
   TabList,
   TabPanels,
   Tab,
   TabPanel,
-  Heading,
   Input,
   Stack,
   Button,
   Checkbox,
-  CheckboxGroup,
   Flex
 } from "@chakra-ui/core";
 
 const TodoList = () => {
+  const [todos, setTodos] = useState([
+    { text: "Learn about React", isComplete: false },
+    { text: "Meet friend for lunch", isComplete: true },
+    { text: "Build really cool todo app", isComplete: false },
+    { text: "Programming", isComplete: false }
+  ]);
   return (
     <>
       <Tabs maxW="500px" mx="auto">
@@ -31,7 +35,17 @@ const TodoList = () => {
         </Stack>
         <TabPanels>
           <TabPanel>
-            <Checkbox>programming</Checkbox>
+            <Stack>
+              {todos.map((todo, index) => (
+                <Checkbox
+                  key={index}
+                  isChecked={todo.isComplete}
+                  onChange={() => {}}
+                >
+                  {todo.text}
+                </Checkbox>
+              ))}
+            </Stack>
           </TabPanel>
           <TabPanel>something else</TabPanel>
           <TabPanel>
