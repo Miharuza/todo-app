@@ -8,10 +8,9 @@ import {
   Input,
   Stack,
   Button,
-  Checkbox,
   Flex,
-  IconButton,
 } from "@chakra-ui/core";
+import TodoItem from "./todoItem";
 
 const TodoList = () => {
   const [todos, setTodos] = useState([
@@ -58,91 +57,61 @@ const TodoList = () => {
 
   return (
     <>
+      <Stack isInline mb={4} as="form" onSubmit={handleSubmit}>
+        <Input
+          size="md"
+          type="text"
+          placeholder="kaj ma"
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+        />
+        <Button
+          size="md"
+          variantColor="blue"
+          _focus={{ outline: "none" }}
+          type="submit"
+        >
+          Add
+        </Button>
+      </Stack>
       <Tabs maxW="500px" mx="auto">
         <TabList mb={4}>
           <Tab _focus={{ outline: "none" }}>All</Tab>
           <Tab _focus={{ outline: "none" }}>Active</Tab>
           <Tab _focus={{ outline: "none" }}>Completed</Tab>
         </TabList>
-        <Stack isInline mb={4} as="form" onSubmit={handleSubmit}>
-          <Input
-            size="md"
-            type="text"
-            placeholder="kaj ma"
-            value={value}
-            onChange={(e) => setValue(e.target.value)}
-          />
-          <Button
-            size="md"
-            variantColor="blue"
-            _focus={{ outline: "none" }}
-            type="submit"
-          >
-            Add
-          </Button>
-        </Stack>
         <TabPanels>
           <TabPanel>
             {todos.map((todo, index) => (
-              <Stack isInline justify="space-between">
-                <Checkbox
-                  key={index}
-                  isChecked={todo.isCompleted}
-                  onChange={() => completeTodo(index)}
-                  textDecoration={todo.isCompleted ? "line-through" : null}
-                >
-                  {todo.text}
-                </Checkbox>
-                <IconButton
-                  icon="delete"
-                  size="xs"
-                  variant="ghost"
-                  variantColor="red"
-                  onClick={() => removeTodo(index)}
-                />
-              </Stack>
+              <TodoItem
+                index={index}
+                text={todo.text}
+                isCompleted={todo.isCompleted}
+                removeTodo={() => removeTodo(index)}
+                completeTodo={() => completeTodo(index)}
+              />
             ))}
           </TabPanel>
           <TabPanel>
             {pending.map((todo, index) => (
-              <Stack isInline justify="space-between">
-                <Checkbox
-                  key={index}
-                  isChecked={todo.isCompleted}
-                  onChange={() => completeTodo(index)}
-                  textDecoration={todo.isCompleted ? "line-through" : null}
-                >
-                  {todo.text}
-                </Checkbox>
-                <IconButton
-                  icon="delete"
-                  size="xs"
-                  variant="ghost"
-                  variantColor="red"
-                  onClick={() => removeTodo(index)}
-                />
-              </Stack>
+              <TodoItem
+                index={index}
+                text={todo.text}
+                isCompleted={todo.isCompleted}
+                removeTodo={() => removeTodo(index)}
+                completeTodo={() => completeTodo(index)}
+              />
             ))}
           </TabPanel>
           <TabPanel>
             {done.map((todo, index) => (
-              <Stack isInline justify="space-between">
-                <Checkbox
-                  key={index}
-                  isChecked={todo.isCompleted}
-                  onChange={() => completeTodo(index)}
-                  textDecoration={todo.isCompleted ? "line-through" : null}
-                >
-                  {todo.text}
-                </Checkbox>
-                <IconButton
-                  icon="delete"
-                  size="xs"
-                  variant="ghost"
-                  variantColor="red"
-                  onClick={() => removeTodo(index)}
-                />
-              </Stack>
+              <TodoItem
+                index={index}
+                text={todo.text}
+                isCompleted={todo.isCompleted}
+                removeTodo={() => removeTodo(index)}
+                completeTodo={() => completeTodo(index)}
+              />
             ))}
             <Flex justifyContent="flex-end">
               <Button
