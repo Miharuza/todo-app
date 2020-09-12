@@ -31,7 +31,7 @@ const TodoList = () => {
   };
 
   const addTodo = (text) => {
-    const newTodos = [...todos, { text }];
+    const newTodos = [...todos, { text, isCompleted: false }];
     setTodos(newTodos);
   };
 
