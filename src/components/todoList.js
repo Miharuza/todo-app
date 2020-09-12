@@ -57,7 +57,14 @@ const TodoList = () => {
 
   return (
     <>
-      <Stack isInline mb={4} as="form" onSubmit={handleSubmit}>
+      <Stack
+        isInline
+        mb={4}
+        as="form"
+        onSubmit={handleSubmit}
+        maxW="500px"
+        mx="auto"
+      >
         <Input
           size="md"
           type="text"
