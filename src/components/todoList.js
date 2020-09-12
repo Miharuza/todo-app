@@ -47,6 +47,15 @@ const TodoList = () => {
     setTodos(newTodos);
   };
 
+  const removeAllTodos = () => {
+    const newTodos = [...done, ...pending];
+    newTodos.splice(0, done.length);
+    setTodos(newTodos);
+  };
+
+  let done = todos.filter((todo) => todo.isCompleted === true);
+  let pending = todos.filter((todo) => todo.isCompleted === false);
+
   return (
     <>
       <Tabs maxW="500px" mx="auto">
@@ -74,32 +83,75 @@ const TodoList = () => {
         </Stack>
         <TabPanels>
           <TabPanel>
-            <Stack>
-              {todos.map((todo, index) => (
-                <Stack isInline justify="space-between">
-                  <Checkbox
-                    key={index}
-                    isChecked={todo.isCompleted}
-                    onChange={() => completeTodo(index)}
-                    textDecoration={todo.isCompleted ? "line-through" : null}
-                  >
-                    {todo.text}
-                  </Checkbox>
-                  <IconButton
-                    icon="delete"
-                    size="xs"
-                    variant="ghost"
-                    variantColor="red"
-                    onClick={() => removeTodo(index)}
-                  />
-                </Stack>
-              ))}
-            </Stack>
+            {todos.map((todo, index) => (
+              <Stack isInline justify="space-between">
+                <Checkbox
+                  key={index}
+                  isChecked={todo.isCompleted}
+                  onChange={() => completeTodo(index)}
+                  textDecoration={todo.isCompleted ? "line-through" : null}
+                >
+                  {todo.text}
+                </Checkbox>
+                <IconButton
+                  icon="delete"
+                  size="xs"
+                  variant="ghost"
+                  variantColor="red"
+                  onClick={() => removeTodo(index)}
+                />
+              </Stack>
+            ))}
           </TabPanel>
-          <TabPanel>something else</TabPanel>
           <TabPanel>
+            {pending.map((todo, index) => (
+              <Stack isInline justify="space-between">
+                <Checkbox
+                  key={index}
+                  isChecked={todo.isCompleted}
+                  onChange={() => completeTodo(index)}
+                  textDecoration={todo.isCompleted ? "line-through" : null}
+                >
+                  {todo.text}
+                </Checkbox>
+                <IconButton
+                  icon="delete"
+                  size="xs"
+                  variant="ghost"
+                  variantColor="red"
+                  onClick={() => removeTodo(index)}
+                />
+              </Stack>
+            ))}
+          </TabPanel>
+          <TabPanel>
+            {done.map((todo, index) => (
+              <Stack isInline justify="space-between">
+                <Checkbox
+                  key={index}
+                  isChecked={todo.isCompleted}
+                  onChange={() => completeTodo(index)}
+                  textDecoration={todo.isCompleted ? "line-through" : null}
+                >
+                  {todo.text}
+                </Checkbox>
+                <IconButton
+                  icon="delete"
+                  size="xs"
+                  variant="ghost"
+                  variantColor="red"
+                  onClick={() => removeTodo(index)}
+                />
+              </Stack>
+            ))}
             <Flex justifyContent="flex-end">
-              <Button _focus={{ outline: "none" }} size="md" variantColor="red">
+              <Button
+                _focus={{ outline: "none" }}
+                size="md"
+                mt={4}
+                variantColor="red"
+                onClick={() => removeAllTodos()}
+              >
                 Delete all
               </Button>
             </Flex>
