@@ -11,14 +11,21 @@ import {
   Flex,
 } from "@chakra-ui/core";
 import TodoItem from "./todoItem";
+import { request } from "graphql-request";
+import {
+  GET_TODOS,
+  ADD_TODO,
+  CHECK_TODO,
+  DELETE_TODO,
+  DELETE_ALL_TODOS,
+} from "../graphql/todoList";
+
+const Endpoint =
+  "https://api-eu-central-1.graphcms.com/v2/ckf0zw4p04i6601xogdtl2vac/master";
 
 const TodoList = () => {
-  const [todos, setTodos] = useState([
-    { text: "Learn about React", isCompleted: false },
-    { text: "Meet friend for lunch", isCompleted: false },
-    { text: "Build really cool todo app", isCompleted: false },
-    { text: "Programming", isCompleted: false },
-  ]);
+  request(Endpoint, GET_TODOS).then((data) => setTodos(data.todoItems));
+  const [todos, setTodos] = useState([]);
 
   const [value, setValue] = useState("");
 
@@ -29,27 +36,20 @@ const TodoList = () => {
     setValue("");
   };
 
-  const addTodo = (text) => {
-    const newTodos = [...todos, { text, isCompleted: false }];
-    setTodos(newTodos);
+  function addTodo(text) {
+    request(Endpoint, ADD_TODO, { text });
+  }
+
+  const completeTodo = (id, isCompleted) => {
+    request(Endpoint, CHECK_TODO, { id: id, check: !isCompleted });
   };
 
-  const completeTodo = (index) => {
-    const newTodos = [...todos];
-    newTodos[index].isCompleted = !newTodos[index].isCompleted;
-    setTodos(newTodos);
-  };
-
-  const removeTodo = (index) => {
-    const newTodos = [...todos];
-    newTodos.splice(index, 1);
-    setTodos(newTodos);
+  const removeTodo = (id) => {
+    request(Endpoint, DELETE_TODO, { id: id });
   };
 
   const removeAllTodos = () => {
-    const newTodos = [...done, ...pending];
-    newTodos.splice(0, done.length);
-    setTodos(newTodos);
+    request(Endpoint, DELETE_ALL_TODOS);
   };
 
   let done = todos.filter((todo) => todo.isCompleted === true);
@@ -91,33 +91,36 @@ const TodoList = () => {
           <TabPanel>
             {todos.map((todo, index) => (
               <TodoItem
+                key={index}
                 index={index}
                 text={todo.text}
                 isCompleted={todo.isCompleted}
-                removeTodo={() => removeTodo(index)}
-                completeTodo={() => completeTodo(index)}
+                removeTodo={() => removeTodo(todo.id)}
+                completeTodo={() => completeTodo(todo.id, todo.isCompleted)}
               />
             ))}
           </TabPanel>
           <TabPanel>
             {pending.map((todo, index) => (
               <TodoItem
+                key={index}
                 index={index}
                 text={todo.text}
                 isCompleted={todo.isCompleted}
-                removeTodo={() => removeTodo(index)}
-                completeTodo={() => completeTodo(index)}
+                removeTodo={() => removeTodo(todo.id)}
+                completeTodo={() => completeTodo(todo.id, todo.isCompleted)}
               />
             ))}
           </TabPanel>
           <TabPanel>
             {done.map((todo, index) => (
               <TodoItem
+                key={index}
                 index={index}
                 text={todo.text}
                 isCompleted={todo.isCompleted}
-                removeTodo={() => removeTodo(index)}
-                completeTodo={() => completeTodo(index)}
+                removeTodo={() => removeTodo(todo.id)}
+                completeTodo={() => completeTodo(todo.id, todo.isCompleted)}
               />
             ))}
             <Flex justifyContent="flex-end">
